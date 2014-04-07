@@ -6,4 +6,4 @@ services:
   - mongodb
 before_script:
   - npm install -g nodeunit
-  - npm install --dev
+  - npm install
