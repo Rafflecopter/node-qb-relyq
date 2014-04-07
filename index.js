@@ -66,7 +66,7 @@ function backend(options, qb) {
       function ready(err) {
         if (err) { readycnt = -1; return next(err); }
         readycnt --;
-        if (!readycnt) { qb.emit('queue-ready', type); next(); }
+        if (!readycnt) { next(); }
       }
     })
     .on('push')
