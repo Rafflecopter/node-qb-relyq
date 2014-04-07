@@ -1,5 +1,5 @@
 // qb_test.js
-require('longjohn')
+// require('longjohn')
 
 // Trivia Answer: Invert horizontally, then vertically to find the symmetry.
 
