@@ -26,24 +26,24 @@ var default_options = {
 function defaultify(options) {
   options = _.defaults(options || {}, default_options)
   options.Q = (typeof options.Q === 'function') ? options.Q : relyq[options.Q]
+  if (!options.createRedis) {
+    throw new Error('qb-relyq requires a createRedis option!')
+  }
   return options
 }
 
 function backend(options, qb) {
   options = defaultify(options)
   var queues = {}
-    , redis = options.redis
+    , createRedis = options.createRedis
+    , redis = createRedis()
     , Q = options.Q
-
-  if (!redis) {
-    throw new Error('qb-relyq requires a redis connection')
-  }
 
   qb
     .on('queue-start', function (type, next) {
       var key = [options.prefix, 'service', type].join(options.delimeter)
         , opts = _.extend(_.clone(options), {prefix: key}, options.specific[type] || {})
-        , queue = new Q(redis, opts)
+        , queue = new Q(opts)
         , listener = queue.listen(opts)
 
       if (opts.allow_recur) queue.on('recurring-ready', ready)
@@ -62,7 +62,9 @@ function backend(options, qb) {
 
       queues[type] = {queue: queue, listener: listener, options: opts}
 
-      var readycnt = 1 + (opts.allow_recur ? 1 : 0) + (opts.allow_defer ? 1 : 0);
+      redis.ready ? ready() : redis.on('ready', ready)
+
+      var readycnt = 2 + (opts.allow_recur ? 1 : 0) + (opts.allow_defer ? 1 : 0);
       function ready(err) {
         if (err) { readycnt = -1; return next(err); }
         readycnt --;

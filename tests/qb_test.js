@@ -9,7 +9,8 @@ var _ = require('underscore'),
   redis = require('redis');
 
 var qbPkg = require('qb')
-  , QB = qbPkg.backend(require('..'));
+  , QB = qbPkg.backend(require('..'))
+  , createRedis = function() { return redis.createClient(6379, 'localhost', { enable_offline_queue: false }) };
 
 var qb;
 
@@ -22,16 +23,13 @@ process.setMaxListeners(100);
 var tests = exports.tests = {};
 
 tests.setUp = function (cb) {
-  var cli = redis.createClient(6379, 'localhost', { enable_offline_queue: false })
-    .on('ready', function () {
-      qb = new QB({
-        prefix: 'qb:'+Moniker.choose(),
-        defer_polling_interval: 50,
-        recur_polling_interval: 50,
-        redis: cli
-      });
-      cb();
-    });
+  qb = new QB({
+    createRedis: createRedis,
+    prefix: 'qb:'+Moniker.choose(),
+    defer_polling_interval: 50,
+    recur_polling_interval: 50
+  })
+  cb();
 }
 
 tests.tearDown = function (cb) {
