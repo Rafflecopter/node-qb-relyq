@@ -27,7 +27,8 @@ tests.setUp = function (cb) {
     createRedis: createRedis,
     prefix: 'qb:'+Moniker.choose(),
     defer_polling_interval: 50,
-    recur_polling_interval: 50
+    recur_polling_interval: 50,
+    blocking_timeout: 1
   })
   cb();
 }
@@ -74,7 +75,7 @@ tests.basic = function basic (test) {
     .start()
 
     .on('ready', function () {
-      qb.push('foobar', {foo: 'bar'}, test.ifError);
+      setTimeout(function () { qb.push('foobar', {foo: 'bar'}, test.ifError); }, 2000)
     })
 }
 

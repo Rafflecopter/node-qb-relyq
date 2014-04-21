@@ -14,6 +14,7 @@ var default_options = {
   idfield: 'id', //relyq/qb: Field containing the id
   Q: 'RedisJsonQ', //qb-relyq: relyq Queue Type
   max_concurrent_callbacks: 100, //relyq-listener: default maximum number of concurrent callbacks per service
+  blocking_timeout: 10, //simpleq: timeout (seconds) between blocking calls. Allows for redis errors to propogate.
   allow_defer: true, //relyq: Allow deferred tasks
   defer_field: 'when', //qb-relyq: Field containing a timestamp signifying a deferred task
   defer_polling_interval: 1000, //relyq: interval between checking for deferred tasks
