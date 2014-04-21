@@ -34,7 +34,7 @@ function defaultify(options) {
 
 function backend(options, qb) {
   options = defaultify(options)
-  var queues = {}
+  var queues = qb._queues = {}
     , createRedis = options.createRedis
     , redis = createRedis()
     , Q = options.Q
