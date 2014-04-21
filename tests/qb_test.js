@@ -344,5 +344,7 @@ tests.earlyStartEnd = function earlyStartEnd(test) {
     .can('ack', function (){})
     .start()
     .can('nack', function() {})
-    .end(test.done)
+    .end(function () {
+      test.done()
+    })
 }
