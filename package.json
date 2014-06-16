@@ -21,8 +21,8 @@
   },
   "homepage": "https://github.com/Rafflecopter/node-qb-relyq",
   "dependencies": {
-    "relyq": "~0.12.1",
     "async": "~0.7.0",
+    "relyq": "^0.13.0",
     "underscore": "~1.6.0"
   },
   "devDependencies": {
