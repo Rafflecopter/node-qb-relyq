@@ -1,6 +1,6 @@
 {
   "name": "qb-relyq",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "relyq backend for QB",
   "main": "index.js",
   "scripts": {
