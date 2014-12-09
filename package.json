@@ -26,10 +26,10 @@
     "underscore": "~1.6.0"
   },
   "devDependencies": {
-    "qb": "~1.0.2",
+    "hiredis": "~0.1.16",
     "moniker": "~0.1.2",
-    "uuid": "~1.4.1",
+    "qb": "~1.0.2",
     "redis": "~0.10.1",
-    "hiredis": "~0.1.16"
+    "uuid": "~1.4.1"
   }
 }

@@ -1,8 +1,6 @@
 // qb_test.js
 // require('longjohn')
 
-// Trivia Answer: Invert horizontally, then vertically to find the symmetry.
-
 var _ = require('underscore'),
   uuid = require('uuid'),
   Moniker = require('moniker'),
@@ -348,4 +346,35 @@ tests.earlyStartEnd = function earlyStartEnd(test) {
     .end(function () {
       test.done()
     })
+}
+
+tests.pushonly = function pushonly(test) {
+  test.expect(2)
+
+  var qb2 = new QB({
+    createRedis: createRedis,
+    prefix: qb._options.prefix,
+    specific: {
+      bar: { pushonly: true }
+    },
+    blocking_timeout: 1
+  }).on('error', test.done)
+    .can('bar', function () { test.ifError(new Error('shouldnt be called on pushonly qb'))})
+    .start()
+    .on('ready', function () {
+      qb2.ready = true
+      if (qb.ready) { qb2.push('bar', {foo: 1}, test.ifError); }
+    })
+
+  qb.on('error', test.done)
+    .can('bar', function (obj, done) {test.ok(obj.foo); done(); endtest()})
+    .start()
+    .on('ready', function () {
+      qb.ready = true
+      if (qb2.ready) { qb2.push('bar', {foo: 1}, test.ifError); }
+    })
+
+  function endtest() {
+    qb2.end(function () { test.done() })
+  }
 }

@@ -46,7 +46,7 @@ function backend(options, qb) {
       var key = [options.prefix, 'service', type].join(options.delimeter)
         , opts = _.extend(_.clone(options), {prefix: key}, options.specific[type] || {})
         , queue = new Q(opts)
-        , listener = opts.pushonly ? queue.listen(opts) : null
+        , listener = opts.pushonly ? null : queue.listen(opts)
 
       if (opts.allow_recur) queue.on('recurring-ready', ready)
       if (opts.allow_defer) queue.on('deferred-ready', ready)
@@ -54,13 +54,17 @@ function backend(options, qb) {
         qb.emit('error', err)
       })
 
-      listener && listener.on('ready', ready)
-        .on('error', function (err, taskref, task) {
-          qb.emit('error', err)
-        })
-        .on('task', function (task, done) {
-          qb.emit('process', type, task, done)
-        })
+      if (listener) {
+        listener.on('ready', ready)
+          .on('error', function (err, taskref, task) {
+            qb.emit('error', err)
+          })
+          .on('task', function (task, done) {
+            qb.emit('process', type, task, done)
+          })
+      } else {
+        setImmediate(ready)
+      }
 
       queues[type] = {queue: queue, listener: listener, options: opts}
 
