@@ -21,6 +21,7 @@ var default_options = {
   allow_recur: true, //relyq: Allow recurring tasks
   recur_field: 'every', //qb-relyq: Field containing a millisecond interval
   recur_polling_interval: 60000, //relyq: Polling interval between recurring task checks
+  pushonly: false, //qb-relyq: Dont execute tasks on this process
   specific: {}, //qb-relyq: A list of specific relyq options for any type of queue
 }
 
@@ -45,7 +46,7 @@ function backend(options, qb) {
       var key = [options.prefix, 'service', type].join(options.delimeter)
         , opts = _.extend(_.clone(options), {prefix: key}, options.specific[type] || {})
         , queue = new Q(opts)
-        , listener = queue.listen(opts)
+        , listener = opts.pushonly ? queue.listen(opts) : null
 
       if (opts.allow_recur) queue.on('recurring-ready', ready)
       if (opts.allow_defer) queue.on('deferred-ready', ready)
@@ -53,7 +54,7 @@ function backend(options, qb) {
         qb.emit('error', err)
       })
 
-      listener.on('ready', ready)
+      listener && listener.on('ready', ready)
         .on('error', function (err, taskref, task) {
           qb.emit('error', err)
         })
