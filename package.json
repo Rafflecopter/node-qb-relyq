@@ -22,14 +22,15 @@
   "homepage": "https://github.com/Rafflecopter/node-qb-relyq",
   "dependencies": {
     "async": "~0.7.0",
+    "defaults": "^1.0.0",
+    "object-values": "^1.0.0",
     "relyq": "^0.13.0",
-    "underscore": "~1.6.0"
+    "xtend": "^4.0.0"
   },
   "devDependencies": {
-    "hiredis": "~0.1.16",
-    "moniker": "~0.1.2",
-    "qb": "~1.0.2",
-    "redis": "~0.10.1",
-    "uuid": "~1.4.1"
+    "hiredis": "^0.2.0",
+    "moniker": "^0.1.2",
+    "qb": "^1.1.0",
+    "redis": "^0.12.1"
   }
 }
