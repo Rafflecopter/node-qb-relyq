@@ -227,3 +227,40 @@ tests.push = function (test) {
       qbpush.end()
     })
 }
+
+tests.undefer_remove = function deferred(test) {
+  test.expect(1)
+  qb.on('error', test.done)
+    .can('after', function (task, done) {
+      test.ifError(new Error('task should have been undeferred'))
+      done()
+    })
+    .on('process-ready', function () {
+      qb.push('after', {id:'mother-of-god', foo:'bar', when: Date.now() + 100})
+      setTimeout(function () {
+        qb.undefer_remove('after', 'mother-of-god', function (err) {
+          test.ifError(err)
+          setTimeout(test.done, 100)
+        })
+      }, 50)
+    });
+}
+
+tests.undefer_push = function (test) {
+  test.expect(2)
+  qb.on('error', test.done)
+    .can('after', function (task, done) {
+      test.ok(task.received + 100 > Date.now(), 'processing time too late. should have been undeferred');
+      setImmediate(test.done)
+      done();
+    })
+    .pre('push', QB.middleware.setTimestamp('received'))
+    .on('process-ready', function () {
+      qb.push('after', {id:'son-of-sam', foo:'bar', when: Date.now() + 200})
+      setTimeout(function () {
+        qb.undefer_push('after', 'son-of-sam', function (err) {
+          test.ifError(err)
+        })
+      }, 50)
+    });
+}
