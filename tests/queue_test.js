@@ -264,3 +264,13 @@ tests.undefer_push = function (test) {
       }, 50)
     });
 }
+
+
+tests.push_to_nowhere = function (test) {
+  test.expect(1)
+  qb.on('error', test.ifError)
+    .push('http://something.else/yoyo', {}, function (err) {
+      test.ifError(err)
+      test.done()
+    })
+}
