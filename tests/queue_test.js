@@ -110,7 +110,7 @@ tests.push_middleware = function push_middleware (test) {
 tests.multiple = function multiple(test) {
   var types = ['super-soaker', 'bad-soaker', 'super-fail']
     , ready = {}
-  test.expect(14)
+  test.expect(15)
   var n = 0, tend = function () {if (++n > 4) setImmediate(test.done); }
 
   qb.on('error', test.done)
@@ -138,7 +138,8 @@ tests.multiple = function multiple(test) {
       // do nothing
       done(new Error('andross'));
     })
-    .on('fail', function (type, task, next) {
+    .on('fail', function (err, type, task, next) {
+      test.ok(/andross/.test(err.toString()))
       test.equal(type, 'super-fail');
       tend();
       next();
