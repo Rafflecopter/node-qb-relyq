@@ -11,7 +11,7 @@ npm install qb qb-relyq --save
 ```
 
 ```javascript
-var QB = require('qb').backend(require('qb-relyq'))
+var QB = require('qb')
   , qb = new QB(qbOptions)
 
 // To use relyq as a work queue:
