@@ -29,7 +29,7 @@
   },
   "devDependencies": {
     "moniker": "0.1.2",
-    "qb": "^2.1.1",
+    "qb": "git+ssh://git@github.com:Rafflecopter/node-qb",
     "redis": "0.12.1"
   }
 }
