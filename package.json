@@ -24,7 +24,7 @@
     "async": "0.9.0",
     "defaults": "1.0.0",
     "object-values": "1.0.0",
-    "relyq": "0.13.1",
+    "relyq": "git+ssh://git@github.com:Rafflecopter/node-relyq",
     "xtend": "4.0.0"
   },
   "devDependencies": {
