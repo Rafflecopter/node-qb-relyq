@@ -26,7 +26,6 @@
     "underscore": "~1.6.0"
   },
   "devDependencies": {
-    "qb": "~1.0.2",
     "moniker": "~0.1.2",
     "uuid": "~1.4.1",
     "redis": "~0.10.1"
