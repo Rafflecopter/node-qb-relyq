@@ -22,7 +22,7 @@
   "homepage": "https://github.com/Rafflecopter/node-qb-relyq",
   "dependencies": {
     "async": "~0.7.0",
-    "relyq": "^0.13.0",
+    "relyq": "git+ssh://git@github.com:Rafflecopter/node-relyq#old",
     "underscore": "~1.6.0"
   },
   "devDependencies": {
